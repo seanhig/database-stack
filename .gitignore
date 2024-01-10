@@ -1,1 +1,5 @@
 .env
+host/**
+!host/README.me
+
+**/.DS_Store

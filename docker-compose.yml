@@ -8,24 +8,27 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${MYSQL_DEFAULT_DATABASE}"
-      MYSQL_USER: "${MYSQL_DEFAULT_USER}"
-      MYSQL_PASSWORD: "${MYSQL_DEFAULT_USER_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DEFAULT_DATABASE}
+      MYSQL_USER: ${MYSQL_DEFAULT_USER}
+      MYSQL_PASSWORD: ${MYSQL_DEFAULT_USER_PASSWORD}
     volumes:
       - mariadb-data-volume:/var/lib/mysql
+      - ./host:/host
 
   postgres:
     image: postgres:latest
     container_name: postgres
     restart: always
     environment:
-      - POSTGRES_USER="${POSTGRES_USER}"
-      - POSTGRES_PASSWORD="${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "conduktor-platform"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - '5432:5432'
+      - 5432:5432
     volumes: 
       - postgres-data-volume:/var/lib/postgresql/data
+      - ./host:/host
 
   sql-server:
     container_name: sql-server
@@ -33,35 +36,47 @@ services:
     restart: always
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+      SA_PASSWORD: ${MSSQL_SA_PASSWORD}
     ports:
       - 1433:1433
     volumes:
-      - "./backups:/var/backups"
       - sql-server-data-volume:/var/opt/mssql
+      - ./host:/host
 
   oracle:
+    container_name: oracle
     image: container-registry.oracle.com/database/enterprise:latest
     environment:
-      - ORACLE_SID="${ORACLE_SID}"
-      - ORACLE_PDB="${ORACLE_PDB}"
-      - ORACLE_PWD="${ORACLE_PWD}"
+      ORACLE_SID: ${ORACLE_SID}
+      ORACLE_PDB: ${ORACLE_PDB}
+      ORACLE_PWD: ${ORACLE_PWD}
     ports:
       - 1521:1521
       - 5500:5500
     volumes:
       - oracle-data-volume:/opt/oracle/oradata
+      - ./host:/host
     healthcheck:
       test: ["CMD", "sqlplus", "-L", "sys/Oracle_123@//localhost:1521/ORADOCK as sysdba", "@healthcheck.sql"]
       interval: 30s
       timeout: 10s
       retries: 5
 
+  bastion:
+    image: ubuntu:22.04
+    container_name: bastion
+    command: >
+      sh -c "apt-get update &&
+             apt-get install iputils-ping -y &&
+             echo 'Bastion Config Complete - Waiting' && 
+             sleep infinity"
+    volumes:
+      - ./host:/host
+
 volumes:
   mariadb-data-volume:
   postgres-data-volume:
   sql-server-data-volume:
   oracle-data-volume:
-
 
 
