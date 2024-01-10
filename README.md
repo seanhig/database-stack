@@ -54,6 +54,14 @@ The `kafka-stack` folder contains another `docker-compose` stack which connects 
 
 See the `kafka-stack` [Readme](kafka-stack/README.md) for more information.
 
+## Stack Examples
+
+### Database Stack
+![Database Stack Example](examples/database-stack.jpg)
+
+### Kafka stack
+![Kafka Stack Example](examples/kafka-stack.jpg)
+
 ## Resources
 
 Running both the `database-stack` and the `kafka-stack` will require (and consume) a fair bit of machine resources.
