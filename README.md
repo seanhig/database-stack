@@ -45,6 +45,8 @@ It is a large container and will take some time to download.  Once downloaded th
 - Azure Data Studio has extensions for all of databases in the stack, and it is relatively easy to connect to the database servers.
 - There is a `bastion` container running `ubuntu 22.04` in the `database-stack`, this can be used for working within the docker network and validating connectivity.
 - All container instances have `/host` mounted to the local `./host` folder for easy file exchange, backups, etc.
+- All services should be available to the host via `localhost`.  For `MySQL` connections using `127.0.0.1` to avoid connection issues associated with localhost.
+- For `docker containers` not running in the `database-stack_defult` network, services should be available via `host.docker.internal` and the service port. Within a docker container `localhost` resolves to the container itself.  Services on the host are accessible to the container via `host.docker.internal`.
 - For Oracle, when connecting use the format: `localhost:1521/<OracleSIDName>` to avoid TNSNAMES related errors and avoid having to setup an Oracle client on the host.
 - To connect to `Oracle Enterprise Mangager Express` in the `oracle` container, from the host, use the url: `https://localhost:5500/em` and enter the `sys` or `system` credentials.  Use `CDB$ROOT` for the __Container__ name.
 
