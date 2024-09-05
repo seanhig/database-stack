@@ -1,1 +1,1 @@
-docker-compose -p "database-stack" up -d
+docker compose -p "database-stack" up -d
