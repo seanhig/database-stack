@@ -10,6 +10,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DEFAULT_DATABASE}
       MYSQL_USER: ${MYSQL_DEFAULT_USER}
       MYSQL_PASSWORD: ${MYSQL_DEFAULT_USER_PASSWORD}
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW      
     volumes:
       - mariadb-data-volume:/var/lib/mysql
       - ./host:/host
@@ -19,9 +20,13 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_DB: "conduktor-platform"
+      POSTGRES_DB: "shipdb"
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"      
     ports:
       - 5432:5432
     volumes: 
