@@ -35,13 +35,15 @@ services:
 
   sql-server:
     container_name: sql-server
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     restart: always
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: ${MSSQL_SA_PASSWORD}
     ports:
       - 1433:1433
+#    command: >
+#      sh -c "echo 'sleeping' && sleep infinity"
     volumes:
       - sql-server-data-volume:/var/opt/mssql
       - ./host:/host
