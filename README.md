@@ -38,7 +38,7 @@ It is a large container and will take some time to download.  Once downloaded th
 
 ### Usage
 
-`bash launch-stack.sh`
+`docker compose up -d`
 
 ## Notes
 

@@ -1,9 +1,9 @@
-version: '3.8'
+name: kafka-stack
 
 services:
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.3.2
+    image: confluentinc/cp-zookeeper:7.7.1
     hostname: zookeeper
     container_name: zookeeper
     ports:
@@ -18,7 +18,7 @@ services:
       - zookeeper-secrets-volume:/etc/zookeeper/secrets
 
   kafka:
-    image: confluentinc/cp-kafka:7.3.2
+    image: confluentinc/cp-kafka:7.7.1
     hostname: kafka
     container_name: kafka
     ports:
@@ -46,7 +46,7 @@ services:
       - zookeeper
 
   kafka-schema-registry:
-    image: confluentinc/cp-schema-registry:7.3.2
+    image: confluentinc/cp-schema-registry:7.7.1
     hostname: kafka-schema-registry
     container_name: kafka-schema-registry
     ports:
@@ -60,7 +60,7 @@ services:
       - kafka
 
   kafka-rest-proxy:
-    image: confluentinc/cp-kafka-rest:7.3.2
+    image: confluentinc/cp-kafka-rest:7.7.1
     hostname: kafka-rest-proxy
     container_name: kafka-rest-proxy
     ports:
@@ -77,7 +77,7 @@ services:
       - kafka-schema-registry
 
   kafka-connect:
-    image: confluentinc/cp-kafka-connect:7.3.2
+    image: confluentinc/cp-kafka-connect:7.7.1
     hostname: kafka-connect
     container_name: kafka-connect
     ports:
