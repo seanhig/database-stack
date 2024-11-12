@@ -88,6 +88,16 @@ services:
             - REDIS_PASSWORD=redispass
             - REDIS_PORT=6379
             - REDIS_DATABASES=16
+    
+    memcached:
+        image: memcached:latest
+        container_name: memcached
+        ports:
+            - 11211:11211
+        command:
+            - --conn-limit=1024
+            - --memory-limit=64
+            - --threads=4
 
     bastion:
         image: ubuntu:22.04
